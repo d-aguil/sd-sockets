@@ -24,11 +24,17 @@ public class SocketHTTPS {
             socket.setSoTimeout(5000); // 5 segundos
 
             // Iniciar el handshake SSL
+            socket.addHandshakeCompletedListener(handshakeCompletedEvent -> {
+                System.out.println("HandShake complete......[OK]");
+            });
+            System.out.println("Comenzando HandShake...");
             socket.startHandshake();
 
             // Obtener flujos de entrada y salida para comunicarse con el servidor
             OutputStream outputStream = socket.getOutputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader reader = new BufferedReader(
+                                        new InputStreamReader(
+                                            socket.getInputStream()));
 
             // Realizar una solicitud GET segura
             String solicitud = "GET / HTTP/1.1\r\n";
