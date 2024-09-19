@@ -1,4 +1,4 @@
-package echoUDP.transferFileUDP;
+package echoUDP;
 
 import java.io.*;
 import java.net.*;
@@ -15,18 +15,13 @@ public class Cliente {
 
             DatagramSocket socket = new DatagramSocket();
 
+            byte[] buffer = args[0].getBytes();
+            System.out.println("enviado contenido: " + new String(buffer));
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, serverAddress, serverPort);
 
+            socket.send(packet);
 
-            byte[] buffer = "hola mundo....".getBytes();
-
-
-                DatagramPacket packet = new DatagramPacket(buffer, buffer.length, serverAddress, serverPort);
-
-                socket.send(packet);
-
-                // FUNDAMENTAL ??
-                //Thread.sleep(10);
-            } catch (UnknownHostException ex) {
+        } catch (UnknownHostException ex) {
             throw new RuntimeException(ex);
         } catch (SocketException ex) {
             throw new RuntimeException(ex);

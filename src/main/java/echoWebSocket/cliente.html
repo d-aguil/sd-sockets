@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>[- WebSockets -]</title>
+</head>
+<body>
+    <h1>WebSocket Cliente</h1>
+
+    <input type="text" id="mensaje" placeholder="Escribir un mensaje...">
+    <button id="enviarBtn">Enviar al servidor</button>
+
+    <p>Respuesta del servidor: </p>
+    <div id="respuesta"></div>
+
+    <script>
+            //
+            const socket = new WebSocket('ws://localhost:5000/ws');
+
+            //
+            socket.onopen = function() {
+                console.log('Conexión WebSocket abierta');
+            };
+
+            //
+            socket.onmessage = function(event) {
+                console.log('Mensaje recibido del servidor:', event.data);
+
+                // Mostrar el mensaje en el div con id "respuesta"
+                const respuestaDiv = document.getElementById('respuesta');
+                respuestaDiv.innerHTML += '<br/>' + event.data;
+            };
+
+            //
+            socket.onclose = function() {
+                console.log('Conexión WebSocket cerrada');
+            };
+
+            //
+            document.getElementById('enviarBtn').addEventListener('click', function() {
+                const mensaje = document.getElementById('mensaje').value;
+
+                if (mensaje) {
+                    console.log('Enviando mensaje al servidor:', mensaje);
+                    socket.send(mensaje);
+                } else {
+                    console.log('No se puede enviar un mensaje vacío.');
+                }
+            });
+
+    </script>
+</body>
+</html>
